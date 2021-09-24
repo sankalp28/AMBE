@@ -1,0 +1,2616 @@
+{
+	"info": {
+		"_postman_id": "fa24e207-0163-4c20-8b08-c617bbb33e2f",
+		"name": "GraphQL AudioMixer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Test01:mutation:createAudiomixerTask",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var Jsondata=JSON.parse(responseBody);\r",
+							"pm.environment.set(\"taskid\",Jsondata.data.createAudiomixerTask);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation($VMip: AWSIPAddress!)  {\r\n createAudiomixerTask(vmip: $VMip)\r\n \r\n}\r\n",
+						"variables": "{\r\n    \"VMip\": \"{{VMip}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test02:query:GetPair ID1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/*AFV status*/\r",
+							"var Jsondata=JSON.parse(responseBody);\r",
+							"pm.environment.set(\"AFV\",Jsondata.data.GetPair.AFV);\r",
+							"\r",
+							"/*Default ID*/\r",
+							"var Jsondata=JSON.parse(responseBody);\r",
+							"pm.environment.set(\"DefaultID\",Jsondata.data.GetPair.inputDatas[0].ID);\r",
+							"\r",
+							"\r",
+							"/*Default previewID*/\r",
+							"var Jsondata=JSON.parse(responseBody);\r",
+							"pm.environment.set(\"DefaultPreviewID\",Jsondata.data.GetPair.inputDatas[0].previewID);\r",
+							"\r",
+							"/*R2 ID */\r",
+							"var Jsondata=JSON.parse(responseBody);\r",
+							"pm.environment.set(\"R2\",Jsondata.data.GetPair.inputDatas[1].ID);\r",
+							"\r",
+							"/*R2 previewID */\r",
+							"var Jsondata=JSON.parse(responseBody);\r",
+							"pm.environment.set(\"DefaultPreviewID\",Jsondata.data.GetPair.inputDatas[1].previewID);\r",
+							"\r",
+							"\r",
+							"\r",
+							"/********************************************************************************************************************** */\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"/*ID status*/\r",
+							"pm.test(\"ID status\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.GetPair.ID).to.eql(1);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "\r\nquery($Taskid:String!) {\r\n  GetPair(PairID: 1, taskid:$Taskid){\r\n    AFV\r\n    ID\r\n    inputDatas{\r\n      ID\r\n      previewID\r\n      audioStreams{\r\n        ID\r\n        mode\r\n        channelDatas{\r\n          ID\r\n          mute\r\n          pan\r\n          output\r\n          sliderPosition\r\n        }\r\n      }\r\n    }\r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test03:query:GetPair ID2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"/*ID status*/\r",
+							"pm.test(\"ID status\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.GetPair).to.eql(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "\r\nquery($Taskid:String!) {\r\n  GetPair(PairID:2, taskid:$Taskid){\r\n    AFV\r\n    ID\r\n    inputDatas{\r\n      ID\r\n      previewID\r\n      audioStreams{\r\n        ID\r\n        mode\r\n        channelDatas{\r\n          ID\r\n          mute\r\n          pan\r\n          output\r\n          sliderPosition\r\n        }\r\n      }\r\n    }\r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test04:query:GetPair ID10",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"/*ID status*/\r",
+							"pm.test(\"ID status\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.GetPair).to.eql(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "\r\nquery($Taskid:String!) {\r\n  GetPair(PairID:2, taskid:$Taskid){\r\n    AFV\r\n    ID\r\n    inputDatas{\r\n      ID\r\n      previewID\r\n      audioStreams{\r\n        ID\r\n        mode\r\n        channelDatas{\r\n          ID\r\n          mute\r\n          pan\r\n          output\r\n          sliderPosition\r\n        }\r\n      }\r\n    }\r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test05:mutation:updatePair",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"/*Pair ID*/\r",
+							"pm.test(\"Pair ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.ID).to.eql(1);\r",
+							"});\r",
+							"\r",
+							"/**TaskID */\r",
+							"pm.test(\"TaskID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var TaskId = pm.variables.get(\"taskid\");\r",
+							"    pm.expect(jsonData.data.updatePair.taskid).to.eql(TaskId);\r",
+							"});\r",
+							"\r",
+							"/*sliderPosition */\r",
+							"pm.test(\"sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var sliderPosition =  pm.variables.get(\"sliderPosition\");\r",
+							"    pm.expect(String(jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].sliderPosition)).to.eql(sliderPosition);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"/*TimeStamp */\r",
+							"pm.environment.set('timestamp',Math.round(new Date()/1000));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation($Taskid: String!, $ID: String!,$Timestamp:String!,$sliderPosition:Int!) {\r\n  updatePair(data: {inputDatas: {ID: $ID, audioStreams: {ID: \"1\", channelDatas: [{ID: 0,  sliderPosition: $sliderPosition}]}}, ID: 1}, taskid: $Taskid, timestamp: $Timestamp) {\r\n    ID\r\n    taskid \r\n    inputDatas{audioStreams{channelDatas{sliderPosition}}}\r\n\r\n  } \r\n}\r\n",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"ID\":\"{{DefaultID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\",\r\n    \"sliderPosition\":\"{{sliderPosition}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test06:mutation:updatePair Slider position = 100",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"/*Pair ID*/\r",
+							"pm.test(\"Pair ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.ID).to.eql(1);\r",
+							"});\r",
+							"\r",
+							"/**TaskID */\r",
+							"pm.test(\"TaskID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var TaskId = pm.variables.get(\"taskid\");\r",
+							"    pm.expect(jsonData.data.updatePair.taskid).to.eql(TaskId);\r",
+							"});\r",
+							"\r",
+							"/*sliderPosition */\r",
+							"pm.test(\"sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect (jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].sliderPosition).to.eql(100);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"/*TimeStamp */\r",
+							"pm.environment.set('timestamp',Math.round(new Date()/1000));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation($Taskid: String!, $ID: String!,$Timestamp:String!) {\r\n  updatePair(data: {inputDatas: {ID: $ID, audioStreams: {ID: \"1\", channelDatas: [{ID: 0,  sliderPosition: 100}]}}, ID: 1}, taskid: $Taskid, timestamp: $Timestamp) {\r\n    ID\r\n    taskid \r\n    inputDatas{audioStreams{channelDatas{sliderPosition}}}\r\n\r\n  } \r\n}\r\n",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"ID\":\"{{DefaultID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test06:mutation:updatePair Slider position = 150",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"/*Pair ID*/\r",
+							"pm.test(\"Pair ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.ID).to.eql(1);\r",
+							"});\r",
+							"\r",
+							"/**TaskID */\r",
+							"pm.test(\"TaskID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var TaskId = pm.variables.get(\"taskid\");\r",
+							"    pm.expect(jsonData.data.updatePair.taskid).to.eql(TaskId);\r",
+							"});\r",
+							"\r",
+							"/*sliderPosition */\r",
+							"pm.test(\"sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect (jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].sliderPosition).to.eql(150);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"/*TimeStamp */\r",
+							"pm.environment.set('timestamp',Math.round(new Date()/1000));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation($Taskid: String!, $ID: String!,$Timestamp:String!) {\r\n  updatePair(data: {inputDatas: {ID: $ID, audioStreams: {ID: \"1\", channelDatas: [{ID: 0,  sliderPosition: 150}]}}, ID: 1}, taskid: $Taskid, timestamp: $Timestamp) {\r\n    ID\r\n    taskid \r\n    inputDatas{audioStreams{channelDatas{sliderPosition}}}\r\n\r\n  } \r\n}\r\n",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"ID\":\"{{DefaultID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test07:mutation:updatePair output False",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"/*output status */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].output).to.eql(false);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation($Taskid: String!, $ID: String!,$Timestamp:String!) {\r\n  updatePair(data: {inputDatas: {ID: $ID, audioStreams: {ID: \"1\", channelDatas: [{ID: 0,   output: false}]}}, ID: 1}, taskid: $Taskid, timestamp: $Timestamp) {\r\n    ID\r\n    taskid \r\n    inputDatas{audioStreams{channelDatas{output}}}\r\n  } \r\n}\r\n",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"ID\":\"{{DefaultID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test08:mutation:updatePair output True",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"/*output status */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].output).to.eql(true);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($ID:String!,$Timestamp:String!,$Taskid:String!) {\r\n  updatePair(data: {inputDatas: {ID: $ID, audioStreams: {ID: \"1\", channelDatas: [{ID: 0, output: true}]}}, ID: 1}, taskid: $Taskid, timestamp: $Timestamp) {\r\n    ID\r\n    taskid \r\n    inputDatas{audioStreams{channelDatas{output}}}  \r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"ID\":\"{{DefaultID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test09:mutation:updatePair output False Update 'output' for a channel whose mute is true",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"/*output status */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].output).to.eql(false);\r",
+							"});\r",
+							"\r",
+							"/*mute status */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].mute).to.eql(true);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$ID:String!,$Timestamp:String!){\r\n  updatePair(data: {inputDatas: {ID: $ID, audioStreams: {ID: \"1\", channelDatas: [{ID: 0, output: false,mute:true}]}}, ID: 1}, taskid: $Taskid, timestamp: $Timestamp) {\r\n    ID\r\n    inputDatas{audioStreams{channelDatas{output}}}\r\n    inputDatas{audioStreams{channelDatas{mute}}}\r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"ID\":\"{{DefaultID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test10:mutation:updatePair output True Update 'output' for a channel whose mute is True",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"/*output status */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].output).to.eql(true);\r",
+							"});\r",
+							"\r",
+							"/*mute status */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].mute).to.eql(true);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$ID:String!,$Timestamp:String!){\r\n  updatePair(data: {inputDatas: {ID: $ID, audioStreams: {ID: \"1\", channelDatas: [{ID: 0, output: true,mute:true}]}}, ID: 1}, taskid: $Taskid, timestamp: $Timestamp) {\r\n    ID\r\n    inputDatas{audioStreams{channelDatas{output}}}\r\n    inputDatas{audioStreams{channelDatas{mute}}}\r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"ID\":\"{{DefaultID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test11:mutation:updatePair output False Update 'output' for a channel whose mute is True",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"/*output status */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].output).to.eql(true);\r",
+							"});\r",
+							"\r",
+							"/*mute status */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].mute).to.eql(true);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$ID:String!,$Timestamp:String!){\r\n  updatePair(data: {inputDatas: {ID: $ID, audioStreams: {ID: \"1\", channelDatas: [{ID: 0, output: true,mute:true}]}}, ID: 1}, taskid: $Taskid, timestamp: $Timestamp) {\r\n    ID\r\n    inputDatas{audioStreams{channelDatas{output}}}\r\n    inputDatas{audioStreams{channelDatas{mute}}}\r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"ID\":\"{{DefaultID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test12:mutation:updateProductionInfo---Update 'pan' 0 for a channel whose 'mute' is false and 'output' is true",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"/*output status */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].output).to.eql(true);\r",
+							"});\r",
+							"\r",
+							"/*mute status */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].mute).to.eql(false);\r",
+							"});\r",
+							"\r",
+							"/*pan value */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].pan).to.eql(0);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$ID:String!,$Timestamp:String!){\r\n  updatePair(data: {inputDatas: {ID: $ID, audioStreams: {ID: \"1\", channelDatas: [{ID: 0, output: true,mute:false,pan:0}]}}, ID: 1}, taskid: $Taskid, timestamp: $Timestamp) {\r\n    ID\r\n    inputDatas{audioStreams{channelDatas{output}}}\r\n    inputDatas{audioStreams{channelDatas{mute}}}\r\n    inputDatas{audioStreams{channelDatas{pan}}}\r\n\r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"ID\":\"{{DefaultID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test13:mutation:updateProductionInfo---Update 'pan' 100 for a channel whose 'mute' is false and 'output' is true",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"/*output status */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].output).to.eql(true);\r",
+							"});\r",
+							"\r",
+							"/*mute status */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].mute).to.eql(false);\r",
+							"});\r",
+							"\r",
+							"/*pan value */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].pan).to.eql(100);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$ID:String!,$Timestamp:String!){\r\n  updatePair(data: {inputDatas: {ID: $ID, audioStreams: {ID: \"1\", channelDatas: [{ID: 0, output: true,mute:false,pan:100}]}}, ID: 1}, taskid: $Taskid, timestamp: $Timestamp) {\r\n    ID\r\n    inputDatas{audioStreams{channelDatas{output}}}\r\n    inputDatas{audioStreams{channelDatas{mute}}}\r\n    inputDatas{audioStreams{channelDatas{pan}}}\r\n\r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"ID\":\"{{DefaultID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test14:mutation:updateProductionInfo---Update 'pan' 50 for a channel whose 'mute' is false and 'output' is true",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"/*output status */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].output).to.eql(true);\r",
+							"});\r",
+							"\r",
+							"/*mute status */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].mute).to.eql(false);\r",
+							"});\r",
+							"\r",
+							"/*pan value */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].audioStreams[0].channelDatas[0].pan).to.eql(50);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$ID:String!,$Timestamp:String!){\r\n  updatePair(data: {inputDatas: {ID: $ID, audioStreams: {ID: \"1\", channelDatas: [{ID: 0, output: true,mute:false,pan:50}]}}, ID: 1}, taskid: $Taskid, timestamp: $Timestamp) {\r\n    ID\r\n    inputDatas{audioStreams{channelDatas{output}}}\r\n    inputDatas{audioStreams{channelDatas{mute}}}\r\n    inputDatas{audioStreams{channelDatas{pan}}}\r\n\r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"ID\":\"{{DefaultID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test15:mutation:updateProductionInfo---Update mute for 'OutputData'  mute=true",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"/*mute status */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.outputData.mute).to.eql(true);\r",
+							"});\r",
+							"\r",
+							"/*ID value */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.ID).to.eql(1);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$Timestamp:String!) {\r\n  updatePair(\r\n    data: {\r\n      ID:1\r\n      outputData:{\r\n        mute:true\r\n      }\r\n    },\r\n    taskid: $Taskid,  timestamp: $Timestamp\r\n  ){\r\n    ID\r\n    outputData{mute}\r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test16:mutation:updateProductionInfo---Update mute for 'OutputData'  mute=false",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"/*mute status */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.outputData.mute).to.eql(false);\r",
+							"});\r",
+							"\r",
+							"/*ID value */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.ID).to.eql(1);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$Timestamp:String!) {\r\n  updatePair(\r\n    data: {\r\n      ID:1\r\n      outputData:{\r\n        mute:false\r\n      }\r\n    },\r\n    taskid: $Taskid,  timestamp: $Timestamp\r\n  ){\r\n    ID\r\n    outputData{mute}\r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test17:mutation:updateProductionInfo---Update sliderPosition for 'OutputData'  sliderPosition=200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"/*sliderPosition vaule */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.outputData.sliderPosition).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"/*ID value */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.ID).to.eql(1);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$Timestamp:String!) {\r\n  updatePair(\r\n    data: {\r\n      ID:1\r\n      outputData:{\r\n        sliderPosition:200\r\n      }\r\n    },\r\n    taskid: $Taskid,  timestamp: $Timestamp\r\n  ){\r\n    ID\r\n    outputData{sliderPosition}\r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test18:mutation:updateProductionInfo---Update sliderPosition for 'OutputData'  sliderPosition=100",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"/*sliderPosition vaule */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.outputData.sliderPosition).to.eql(100);\r",
+							"});\r",
+							"\r",
+							"/*ID value */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.ID).to.eql(1);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$Timestamp:String!) {\r\n  updatePair(\r\n    data: {\r\n      ID:1\r\n      outputData:{\r\n        sliderPosition:100\r\n      }\r\n    },\r\n    taskid: $Taskid,  timestamp: $Timestamp\r\n  ){\r\n    ID\r\n    outputData{sliderPosition}\r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test19:mutation:updateProductionInfo---Update source info like source type, name, partycode, RTILCode",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"/*ID vaule */\r",
+							"pm.test(\"ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    DefaultID = pm.variables.get(\"DefaultID\");\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].ID).to.eql(DefaultID);\r",
+							"});\r",
+							"\r",
+							"/*SourceName value */\r",
+							"pm.test(\"SourceName\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(String(jsonData.data.updatePair.inputDatas[0].sourceName)).to.eql(\"sylar--shqa\");\r",
+							"});\r",
+							"\r",
+							"/*sourceType value */\r",
+							"pm.test(\"sourceType\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].sourceType).to.eql(1);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"/*partyCode value */\r",
+							"pm.test(\"partyCode\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.updatePair.inputDatas[0].partyCode).to.eql('123456');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$ID:String!) {\r\n  updatePair(\r\n    data: {\r\ninputDatas:[\r\n        {\r\n          ID:$ID\r\n          RTILCode:\"sylartest\"\r\n          sourceName:\"sylar--shqa\"\r\n          sourceType:1\r\n          partyCode:\"123456\"\r\n        }\r\n      ]\r\n    },\r\n    taskid: $Taskid\r\n  ){\r\n    inputDatas{\r\n      ID\r\n      sourceName\r\n      sourceType\r\n      RTILCode\r\n      partyCode\r\n    }\r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"ID\":\"{{DefaultID}}\"\r\n\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test20:mutation:updateProductionInfo---Update AFV value for a Pair AFV=true",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"/*AFV Status */\r",
+							"pm.test(\"AFV Status\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    DefaultID = pm.variables.get(\"DefaultID\");\r",
+							"    pm.expect(jsonData.data.updatePair.AFV).to.eql(false);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$Timestamp:String!) {\r\n  updatePair(\r\n    data: {\r\nID:1\r\n      AFV:false\r\n    },\r\n    taskid: $Taskid,  timestamp: $Timestamp\r\n  ){\r\n    ID\r\n    AFV\r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test21:mutation:updateProductionInfo---Invalid pair ID is passed ID=10",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"/*Error message */\r",
+							"pm.test(\"Error message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    DefaultID = pm.variables.get(\"DefaultID\");\r",
+							"    pm.expect(jsonData.errors[0].message).to.eql(\"Invalid pair ID is provided. It must be >0 and <=4\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!) {\r\n  updatePair(\r\n    data: {\r\n      ID:10\r\n      outputData:{\r\n        sliderPosition:100\r\n      }\r\n    },\r\n    taskid: $Taskid\r\n  ){\r\n    ID\r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\"\r\n\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test22:mutation:updateProductionInfo---Pair ID is not passed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"/*Error message */\r",
+							"pm.test(\"Error message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    DefaultID = pm.variables.get(\"DefaultID\");\r",
+							"    pm.expect(jsonData.errors[0].message).to.eql(\"Pair ID is not provided\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!) {\r\n  updatePair(\r\n    data: {\r\n      outputData:{\r\n        sliderPosition:100\r\n      }\r\n    },\r\n    taskid: $Taskid\r\n  ){\r\n    ID\r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\"\r\n\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test23:mutation:updateProductionInfo---Update production information for the audiomixer task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"/*productionID */\r",
+							"pm.test(\"productionID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var productionID =  pm.variables.get(\"productionID\");\r",
+							"    pm.expect(jsonData.data.updateProductionInfo.productionID).to.eql(productionID);\r",
+							"});\r",
+							"\r",
+							"/* productionName*/\r",
+							"pm.test(\"productionID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var productionName =  pm.variables.get(\"productionName\");\r",
+							"    pm.expect(jsonData.data.updateProductionInfo.productionName).to.eql(productionName);\r",
+							"});\r",
+							"\r",
+							"/*outputSourceName */\r",
+							"pm.test(\"productionID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var outputSourceName =  pm.variables.get(\"DefaultID\");\r",
+							"    pm.expect(jsonData.data.updateProductionInfo.outputSourceName).to.eql(outputSourceName);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$ID:String!,$productionID:String!,$productionName:String!) {\r\n  updateProductionInfo(\r\n    info: {\r\n      productionID:$productionID\r\n      productionName:$productionName\r\n      version:\"v2\"\r\n      pairCount:4\r\n      partyCodes:[2,2,2,2]\r\n      rps:false\r\n      outputSourceName:$ID\r\n    }, \r\n    taskid: $Taskid\r\n  ){\r\n    productionID\r\n    productionName\r\n    version\r\n    outputSourceName\r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"ID\":\"{{DefaultID}}\",\r\n    \"productionID\":\"{{productionID}}\",\r\n    \"productionName\":\"{{productionName}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test24:mutation:updateProductionInfo---Update production information with invalid taskid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.errors[0].message).to.eql(\"Audiomixer task not found\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($invalidTaskId:String!,$ID:String!,$productionID:String!,$productionName:String!) {\r\n  updateProductionInfo(\r\n    info: {\r\n      productionID:$productionID\r\n      productionName:$productionName\r\n      version:\"v2\"\r\n      pairCount:4\r\n      partyCodes:[2,2,2,2]\r\n      rps:false\r\n      outputSourceName:$ID\r\n    }, \r\n    taskid: $invalidTaskId\r\n  ){\r\n    productionID\r\n    productionName\r\n    version\r\n    outputSourceName\r\n  }\r\n}",
+						"variables": "{\r\n    \"invalidTaskId\": \"{{invalidTaskId}}\",\r\n    \"ID\":\"{{DefaultID}}\",\r\n    \"productionID\":\"{{productionID}}\",\r\n    \"productionName\":\"{{productionName}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test25:query:Retrieve production info for the audiomixer task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"/*Response Code */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"/*error message */\r",
+							"pm.test(\"outputstatus\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.errors[0].message).to.eql('Audio mixer task not found.');\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query ($Taskid: String!) {\r\n  GetProductionInfo(taskid:$Taskid){\r\n    \r\n    productionName\r\n    pairCount\r\n    partyCodes\r\n    rps\r\n    outputSourceName\r\n    version\r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\":\"$taskid\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test26:mutation:deleteAudiomixerTask",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/*response data*/\r",
+							"pm.test(\"deleteAudiomixerTask\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.deleteAudiomixerTask).to.eql(\"Task deleted successfully\");\r",
+							"});\r",
+							"\r",
+							"/*response status*/\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid: String!){\r\n  deleteAudiomixerTask(taskid: $Taskid)\r\n}",
+						"variables": "{\r\n    \"Taskid\":\"{{taskid}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test27:mutation:updateAudioMixerTaskStatus",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation MyMutation {\r\n  updateAudioMixerTaskStatus(status: false, taskid: $taskid )\r\n}",
+						"variables": "{\"taskid\":{{taskid}}\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test28:mutation:transitionSource --Execute transition between Default and R2 Source with transition duration of 2000 ms: Default: 299 to 100 R2: 100 to 299",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/*Response status */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"/*Current ID */\r",
+							"pm.test(\"Crrent ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].ID).to.eql('Default');\r",
+							"});\r",
+							"\r",
+							"/*Current ID left sliderPosition*/\r",
+							"pm.test(\"Current ID left sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].audioStreams[0].channelDatas[0].sliderPosition).to.eql(100);\r",
+							"});\r",
+							"\r",
+							"/*Current ID right sliderPosition*/\r",
+							"pm.test(\"Current ID right sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].audioStreams[0].channelDatas[1].sliderPosition).to.eql(100);\r",
+							"});\r",
+							"\r",
+							"/*Next ID */\r",
+							"pm.test(\"Next ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].ID).to.eql('R2');\r",
+							"});\r",
+							"\r",
+							"/*Next ID left sliderPosition*/\r",
+							"pm.test(\"Next ID left sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].audioStreams[0].channelDatas[0].sliderPosition).to.eql(299);\r",
+							"});\r",
+							"\r",
+							"/*Next ID right sliderPosition*/\r",
+							"pm.test(\"Next ID right sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].audioStreams[0].channelDatas[1].sliderPosition).to.eql(299);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$DefaultID:String!,$R2ID:String!,$Timestamp:String!) {\r\n  transitionSource(\r\n    taskid: $Taskid,\r\n    transition: {\r\n      currentSourceId: $DefaultID\r\n      currentSourceStartSliderPosition:299\r\n      currentSourceEndSliderPosition:100\r\n      nextSourceId:$R2ID\r\n      nextSourceStartSliderPosition:100\r\n      nextSourceEndSliderPosition:299\r\n      timestamp:$Timestamp\r\n      transitionDuration:2000\r\n    }\r\n  ){\r\n    ID\r\n    taskid\r\n    inputDatas{\r\n        ID\r\n        sourceName\r\n        audioStreams{\r\n            ID\r\n            sliderPosition\r\n            channelDatas{sliderPosition}\r\n              \r\n        }\r\n    }\r\n    \r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"DefaultID\":\"{{DefaultID}}\",\r\n    \"R2ID\":\"{{R2ID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test29:mutation:transitionSource --Execute transition between Default and R2 Source with transition duration of 1500 ms: Default: 299 to 100 R2: 100 to 299",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/*Response status */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"/*Current ID */\r",
+							"pm.test(\"Crrent ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].ID).to.eql('Default');\r",
+							"});\r",
+							"\r",
+							"/*Current ID left sliderPosition*/\r",
+							"pm.test(\"Current ID left sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].audioStreams[0].channelDatas[0].sliderPosition).to.eql(100);\r",
+							"});\r",
+							"\r",
+							"/*Current ID right sliderPosition*/\r",
+							"pm.test(\"Current ID right sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].audioStreams[0].channelDatas[1].sliderPosition).to.eql(100);\r",
+							"});\r",
+							"\r",
+							"/*Next ID */\r",
+							"pm.test(\"Next ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].ID).to.eql('R2');\r",
+							"});\r",
+							"\r",
+							"/*Next ID left sliderPosition*/\r",
+							"pm.test(\"Next ID left sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].audioStreams[0].channelDatas[0].sliderPosition).to.eql(299);\r",
+							"});\r",
+							"\r",
+							"/*Next ID right sliderPosition*/\r",
+							"pm.test(\"Next ID right sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].audioStreams[0].channelDatas[1].sliderPosition).to.eql(299);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$DefaultID:String!,$R2ID:String!,$Timestamp:String!) {\r\n  transitionSource(\r\n    taskid: $Taskid,\r\n    transition: {\r\n      currentSourceId: $DefaultID\r\n      currentSourceStartSliderPosition:299\r\n      currentSourceEndSliderPosition:100\r\n      nextSourceId:$R2ID\r\n      nextSourceStartSliderPosition:100\r\n      nextSourceEndSliderPosition:299\r\n      timestamp:$Timestamp\r\n      transitionDuration:1500\r\n    }\r\n  ){\r\n    ID\r\n    taskid\r\n    inputDatas{\r\n        ID\r\n        sourceName\r\n        audioStreams{\r\n            ID\r\n            sliderPosition\r\n            channelDatas{sliderPosition}\r\n              \r\n        }\r\n    }\r\n    \r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"DefaultID\":\"{{DefaultID}}\",\r\n    \"R2ID\":\"{{R2ID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test30:mutation:transitionSource --Execute transition between Default and R2 Source with transition duration of 1000 ms: Default: 299 to 100 R2: 100 to 299",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/*Response status */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"/*Current ID */\r",
+							"pm.test(\"Crrent ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].ID).to.eql('Default');\r",
+							"});\r",
+							"\r",
+							"/*Current ID left sliderPosition*/\r",
+							"pm.test(\"Current ID left sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].audioStreams[0].channelDatas[0].sliderPosition).to.eql(100);\r",
+							"});\r",
+							"\r",
+							"/*Current ID right sliderPosition*/\r",
+							"pm.test(\"Current ID right sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].audioStreams[0].channelDatas[1].sliderPosition).to.eql(100);\r",
+							"});\r",
+							"\r",
+							"/*Next ID */\r",
+							"pm.test(\"Next ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].ID).to.eql('R2');\r",
+							"});\r",
+							"\r",
+							"/*Next ID left sliderPosition*/\r",
+							"pm.test(\"Next ID left sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].audioStreams[0].channelDatas[0].sliderPosition).to.eql(299);\r",
+							"});\r",
+							"\r",
+							"/*Next ID right sliderPosition*/\r",
+							"pm.test(\"Next ID right sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].audioStreams[0].channelDatas[1].sliderPosition).to.eql(299);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$DefaultID:String!,$R2ID:String!,$Timestamp:String!) {\r\n  transitionSource(\r\n    taskid: $Taskid,\r\n    transition: {\r\n      currentSourceId: $DefaultID\r\n      currentSourceStartSliderPosition:299\r\n      currentSourceEndSliderPosition:100\r\n      nextSourceId:$R2ID\r\n      nextSourceStartSliderPosition:100\r\n      nextSourceEndSliderPosition:299\r\n      timestamp:$Timestamp\r\n      transitionDuration:1000\r\n    }\r\n  ){\r\n    ID\r\n    taskid\r\n    inputDatas{\r\n        ID\r\n        sourceName\r\n        audioStreams{\r\n            ID\r\n            sliderPosition\r\n            channelDatas{sliderPosition}\r\n              \r\n        }\r\n    }\r\n    \r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"DefaultID\":\"{{DefaultID}}\",\r\n    \"R2ID\":\"{{R2ID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test31:mutation:transitionSource --Execute transition between Default and R2 Source with transition duration of 2000 ms: Default: 100 to 0 R2: 0 to 100",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/*Response status */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"/*Current ID */\r",
+							"pm.test(\"Crrent ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].ID).to.eql('Default');\r",
+							"});\r",
+							"\r",
+							"/*Current ID left sliderPosition*/\r",
+							"pm.test(\"Current ID left sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].audioStreams[0].channelDatas[0].sliderPosition).to.eql(0);\r",
+							"});\r",
+							"\r",
+							"/*Current ID right sliderPosition*/\r",
+							"pm.test(\"Current ID right sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].audioStreams[0].channelDatas[1].sliderPosition).to.eql(0);\r",
+							"});\r",
+							"\r",
+							"/*Next ID */\r",
+							"pm.test(\"Next ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].ID).to.eql('R2');\r",
+							"});\r",
+							"\r",
+							"/*Next ID left sliderPosition*/\r",
+							"pm.test(\"Next ID left sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].audioStreams[0].channelDatas[0].sliderPosition).to.eql(100);\r",
+							"});\r",
+							"\r",
+							"/*Next ID right sliderPosition*/\r",
+							"pm.test(\"Next ID right sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].audioStreams[0].channelDatas[1].sliderPosition).to.eql(100);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$DefaultID:String!,$R2ID:String!,$Timestamp:String!) {\r\n  transitionSource(\r\n    taskid: $Taskid,\r\n    transition: {\r\n      currentSourceId: $DefaultID\r\n      currentSourceStartSliderPosition:100\r\n      currentSourceEndSliderPosition:0\r\n      nextSourceId:$R2ID\r\n      nextSourceStartSliderPosition:0\r\n      nextSourceEndSliderPosition:100\r\n      timestamp:$Timestamp\r\n      transitionDuration:2000\r\n    }\r\n  ){\r\n    ID\r\n    taskid\r\n    inputDatas{\r\n        ID\r\n        sourceName\r\n        audioStreams{\r\n            ID\r\n            sliderPosition\r\n            channelDatas{sliderPosition}\r\n              \r\n        }\r\n    }\r\n    \r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"DefaultID\":\"{{DefaultID}}\",\r\n    \"R2ID\":\"{{R2ID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test32:mutation:transitionSource --Execute transition between Default and R2 Source with transition duration of 1500 ms: Default: 100 to 0 R2: 0 to 100",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/*Response status */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"/*Current ID */\r",
+							"pm.test(\"Crrent ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].ID).to.eql('Default');\r",
+							"});\r",
+							"\r",
+							"/*Current ID left sliderPosition*/\r",
+							"pm.test(\"Current ID left sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].audioStreams[0].channelDatas[0].sliderPosition).to.eql(0);\r",
+							"});\r",
+							"\r",
+							"/*Current ID right sliderPosition*/\r",
+							"pm.test(\"Current ID right sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].audioStreams[0].channelDatas[1].sliderPosition).to.eql(0);\r",
+							"});\r",
+							"\r",
+							"/*Next ID */\r",
+							"pm.test(\"Next ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].ID).to.eql('R2');\r",
+							"});\r",
+							"\r",
+							"/*Next ID left sliderPosition*/\r",
+							"pm.test(\"Next ID left sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].audioStreams[0].channelDatas[0].sliderPosition).to.eql(100);\r",
+							"});\r",
+							"\r",
+							"/*Next ID right sliderPosition*/\r",
+							"pm.test(\"Next ID right sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].audioStreams[0].channelDatas[1].sliderPosition).to.eql(100);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$DefaultID:String!,$R2ID:String!,$Timestamp:String!) {\r\n  transitionSource(\r\n    taskid: $Taskid,\r\n    transition: {\r\n      currentSourceId: $DefaultID\r\n      currentSourceStartSliderPosition:100\r\n      currentSourceEndSliderPosition:0\r\n      nextSourceId:$R2ID\r\n      nextSourceStartSliderPosition:0\r\n      nextSourceEndSliderPosition:100\r\n      timestamp:$Timestamp\r\n      transitionDuration:1500\r\n    }\r\n  ){\r\n    ID\r\n    taskid\r\n    inputDatas{\r\n        ID\r\n        sourceName\r\n        audioStreams{\r\n            ID\r\n            sliderPosition\r\n            channelDatas{sliderPosition}\r\n              \r\n        }\r\n    }\r\n    \r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"DefaultID\":\"{{DefaultID}}\",\r\n    \"R2ID\":\"{{R2ID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test33:mutation:transitionSource --Execute transition between Default and R2 Source with transition duration of 1000 ms: Default: 100 to 0 R2: 0 to 100",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/*Response status */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"/*Current ID */\r",
+							"pm.test(\"Crrent ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].ID).to.eql('Default');\r",
+							"});\r",
+							"\r",
+							"/*Current ID left sliderPosition*/\r",
+							"pm.test(\"Current ID left sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].audioStreams[0].channelDatas[0].sliderPosition).to.eql(0);\r",
+							"});\r",
+							"\r",
+							"/*Current ID right sliderPosition*/\r",
+							"pm.test(\"Current ID right sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].audioStreams[0].channelDatas[1].sliderPosition).to.eql(0);\r",
+							"});\r",
+							"\r",
+							"/*Next ID */\r",
+							"pm.test(\"Next ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].ID).to.eql('R2');\r",
+							"});\r",
+							"\r",
+							"/*Next ID left sliderPosition*/\r",
+							"pm.test(\"Next ID left sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].audioStreams[0].channelDatas[0].sliderPosition).to.eql(100);\r",
+							"});\r",
+							"\r",
+							"/*Next ID right sliderPosition*/\r",
+							"pm.test(\"Next ID right sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].audioStreams[0].channelDatas[1].sliderPosition).to.eql(100);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$DefaultID:String!,$R2ID:String!,$Timestamp:String!) {\r\n  transitionSource(\r\n    taskid: $Taskid,\r\n    transition: {\r\n      currentSourceId: $DefaultID\r\n      currentSourceStartSliderPosition:100\r\n      currentSourceEndSliderPosition:0\r\n      nextSourceId:$R2ID\r\n      nextSourceStartSliderPosition:0\r\n      nextSourceEndSliderPosition:100\r\n      timestamp:$Timestamp\r\n      transitionDuration:1000\r\n    }\r\n  ){\r\n    ID\r\n    taskid\r\n    inputDatas{\r\n        ID\r\n        sourceName\r\n        audioStreams{\r\n            ID\r\n            sliderPosition\r\n            channelDatas{sliderPosition}\r\n              \r\n        }\r\n    }\r\n    \r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"DefaultID\":\"{{DefaultID}}\",\r\n    \"R2ID\":\"{{R2ID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test34:mutation:transitionSource --Execute transition between Default and R2 Source with transition duration of 2000 ms: Default: 200 to 100 R2: 100 to 299",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/*Response status */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"/*Current ID */\r",
+							"pm.test(\"Crrent ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].ID).to.eql('Default');\r",
+							"});\r",
+							"\r",
+							"/*Current ID left sliderPosition*/\r",
+							"pm.test(\"Current ID left sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].audioStreams[0].channelDatas[0].sliderPosition).to.eql(0);\r",
+							"});\r",
+							"\r",
+							"/*Current ID right sliderPosition*/\r",
+							"pm.test(\"Current ID right sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].audioStreams[0].channelDatas[1].sliderPosition).to.eql(0);\r",
+							"});\r",
+							"\r",
+							"/*Next ID */\r",
+							"pm.test(\"Next ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].ID).to.eql('R2');\r",
+							"});\r",
+							"\r",
+							"/*Next ID left sliderPosition*/\r",
+							"pm.test(\"Next ID left sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].audioStreams[0].channelDatas[0].sliderPosition).to.eql(100);\r",
+							"});\r",
+							"\r",
+							"/*Next ID right sliderPosition*/\r",
+							"pm.test(\"Next ID right sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].audioStreams[0].channelDatas[1].sliderPosition).to.eql(100);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$DefaultID:String!,$R2ID:String!,$Timestamp:String!) {\r\n  transitionSource(\r\n    taskid: $Taskid,\r\n    transition: {\r\n      currentSourceId: $DefaultID\r\n      currentSourceStartSliderPosition:100\r\n      currentSourceEndSliderPosition:0\r\n      nextSourceId:$R2ID\r\n      nextSourceStartSliderPosition:0\r\n      nextSourceEndSliderPosition:100\r\n      timestamp:$Timestamp\r\n      transitionDuration:1000\r\n    }\r\n  ){\r\n    ID\r\n    taskid\r\n    inputDatas{\r\n        ID\r\n        sourceName\r\n        audioStreams{\r\n            ID\r\n            sliderPosition\r\n            channelDatas{sliderPosition}\r\n              \r\n        }\r\n    }\r\n    \r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"DefaultID\":\"{{DefaultID}}\",\r\n    \"R2ID\":\"{{R2ID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test35:mutation:transitionSource --Execute transition between Default and R2 Source with transition duration of 1500 ms: Default: 200 to 100 R2: 100 to 299",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/*Response status */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"/*Current ID */\r",
+							"pm.test(\"Crrent ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].ID).to.eql('Default');\r",
+							"});\r",
+							"\r",
+							"/*Current ID left sliderPosition*/\r",
+							"pm.test(\"Current ID left sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].audioStreams[0].channelDatas[0].sliderPosition).to.eql(0);\r",
+							"});\r",
+							"\r",
+							"/*Current ID right sliderPosition*/\r",
+							"pm.test(\"Current ID right sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].audioStreams[0].channelDatas[1].sliderPosition).to.eql(0);\r",
+							"});\r",
+							"\r",
+							"/*Next ID */\r",
+							"pm.test(\"Next ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].ID).to.eql('R2');\r",
+							"});\r",
+							"\r",
+							"/*Next ID left sliderPosition*/\r",
+							"pm.test(\"Next ID left sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].audioStreams[0].channelDatas[0].sliderPosition).to.eql(100);\r",
+							"});\r",
+							"\r",
+							"/*Next ID right sliderPosition*/\r",
+							"pm.test(\"Next ID right sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].audioStreams[0].channelDatas[1].sliderPosition).to.eql(100);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$DefaultID:String!,$R2ID:String!,$Timestamp:String!) {\r\n  transitionSource(\r\n    taskid: $Taskid,\r\n    transition: {\r\n      currentSourceId: $DefaultID\r\n      currentSourceStartSliderPosition:100\r\n      currentSourceEndSliderPosition:0\r\n      nextSourceId:$R2ID\r\n      nextSourceStartSliderPosition:0\r\n      nextSourceEndSliderPosition:100\r\n      timestamp:$Timestamp\r\n      transitionDuration:1500\r\n    }\r\n  ){\r\n    ID\r\n    taskid\r\n    inputDatas{\r\n        ID\r\n        sourceName\r\n        audioStreams{\r\n            ID\r\n            sliderPosition\r\n            channelDatas{sliderPosition}\r\n              \r\n        }\r\n    }\r\n    \r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"DefaultID\":\"{{DefaultID}}\",\r\n    \"R2ID\":\"{{R2ID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test36:mutation:transitionSource --Execute transition between Default and R2 Source with transition duration of 1000ms: Default: 200 to 100 R2: 100 to 299 Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/*Response status */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"/*Current ID */\r",
+							"pm.test(\"Crrent ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].ID).to.eql('Default');\r",
+							"});\r",
+							"\r",
+							"/*Current ID left sliderPosition*/\r",
+							"pm.test(\"Current ID left sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].audioStreams[0].channelDatas[0].sliderPosition).to.eql(0);\r",
+							"});\r",
+							"\r",
+							"/*Current ID right sliderPosition*/\r",
+							"pm.test(\"Current ID right sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[0].audioStreams[0].channelDatas[1].sliderPosition).to.eql(0);\r",
+							"});\r",
+							"\r",
+							"/*Next ID */\r",
+							"pm.test(\"Next ID\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].ID).to.eql('R2');\r",
+							"});\r",
+							"\r",
+							"/*Next ID left sliderPosition*/\r",
+							"pm.test(\"Next ID left sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].audioStreams[0].channelDatas[0].sliderPosition).to.eql(100);\r",
+							"});\r",
+							"\r",
+							"/*Next ID right sliderPosition*/\r",
+							"pm.test(\"Next ID right sliderPosition\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.transitionSource.inputDatas[1].audioStreams[0].channelDatas[1].sliderPosition).to.eql(100);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$DefaultID:String!,$R2ID:String!,$Timestamp:String!) {\r\n  transitionSource(\r\n    taskid: $Taskid,\r\n    transition: {\r\n      currentSourceId: $DefaultID\r\n      currentSourceStartSliderPosition:100\r\n      currentSourceEndSliderPosition:0\r\n      nextSourceId:$R2ID\r\n      nextSourceStartSliderPosition:0\r\n      nextSourceEndSliderPosition:100\r\n      timestamp:$Timestamp\r\n      transitionDuration:1000\r\n    }\r\n  ){\r\n    ID\r\n    taskid\r\n    inputDatas{\r\n        ID\r\n        sourceName\r\n        audioStreams{\r\n            ID\r\n            sliderPosition\r\n            channelDatas{sliderPosition}\r\n              \r\n        }\r\n    }\r\n    \r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"DefaultID\":\"{{DefaultID}}\",\r\n    \"R2ID\":\"{{R2ID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test37:mutation:transitionSource --Execute transition between Default and R2 Source with invalid current source start slider position",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/*Response status */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"/*Error message */\r",
+							"pm.test(\"Error message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.errors[0].message).to.eql('Incorrect start sliderPosition is provided for current source');\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$DefaultID:String!,$R2ID:String!,$Timestamp:String!) {\r\n  transitionSource(\r\n    taskid: $Taskid,\r\n    transition: {\r\n      currentSourceId: $DefaultID\r\n      currentSourceStartSliderPosition:-100\r\n      currentSourceEndSliderPosition:0\r\n      nextSourceId:$R2ID\r\n      nextSourceStartSliderPosition:0\r\n      nextSourceEndSliderPosition:100\r\n      timestamp:$Timestamp\r\n      transitionDuration:1000\r\n    }\r\n  ){\r\n    ID\r\n    taskid\r\n    inputDatas{\r\n        ID\r\n        sourceName\r\n        audioStreams{\r\n            ID\r\n            sliderPosition\r\n            channelDatas{sliderPosition}\r\n              \r\n        }\r\n    }\r\n    \r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"DefaultID\":\"{{DefaultID}}\",\r\n    \"R2ID\":\"{{R2ID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test38:mutation:transitionSource --Execute transition between Default and R2 Source with invalid transition duration",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/*Response status */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"/*Error message */\r",
+							"pm.test(\"Error message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.errors[0].message).to.eql('Incorrect duration is provided');\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$DefaultID:String!,$R2ID:String!,$Timestamp:String!) {\r\n  transitionSource(\r\n    taskid: $Taskid,\r\n    transition: {\r\n      currentSourceId: $DefaultID\r\n      currentSourceStartSliderPosition:100\r\n      currentSourceEndSliderPosition:0\r\n      nextSourceId:$R2ID\r\n      nextSourceStartSliderPosition:0\r\n      nextSourceEndSliderPosition:100\r\n      timestamp:$Timestamp\r\n      transitionDuration:-1000\r\n    }\r\n  ){\r\n    ID\r\n    taskid\r\n    inputDatas{\r\n        ID\r\n        sourceName\r\n        audioStreams{\r\n            ID\r\n            sliderPosition\r\n            channelDatas{sliderPosition}\r\n              \r\n        }\r\n    }\r\n    \r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"DefaultID\":\"{{DefaultID}}\",\r\n    \"R2ID\":\"{{R2ID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test38:mutation:transitionSource --Execute transition between Default and R2 Source with invalid start and end position for current i.e. start<end",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/*Response status */\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"/*Error message */\r",
+							"pm.test(\"Error message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.errors[0].message).to.eql('Incorrect sliderPosition are provided for current source');\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{APIKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($Taskid:String!,$DefaultID:String!,$R2ID:String!,$Timestamp:String!) {\r\n  transitionSource(\r\n    taskid: $Taskid,\r\n    transition: {\r\n      currentSourceId: $DefaultID\r\n      currentSourceStartSliderPosition:100\r\n      currentSourceEndSliderPosition:299\r\n      nextSourceId:$R2ID\r\n      nextSourceStartSliderPosition:100\r\n      nextSourceEndSliderPosition:299\r\n      timestamp:$Timestamp\r\n      transitionDuration:1000\r\n    }\r\n  ){\r\n    ID\r\n    taskid\r\n    inputDatas{\r\n        ID\r\n        sourceName\r\n        audioStreams{\r\n            ID\r\n            sliderPosition\r\n            channelDatas{sliderPosition}\r\n              \r\n        }\r\n    }\r\n    \r\n  }\r\n}",
+						"variables": "{\r\n    \"Taskid\": \"{{taskid}}\",\r\n    \"DefaultID\":\"{{DefaultID}}\",\r\n    \"R2ID\":\"{{R2ID}}\",\r\n    \"Timestamp\":\"{{timestamp}}\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/graphql",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
