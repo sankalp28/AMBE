@@ -1,0 +1,33 @@
+{
+  "ErrorCode": "0x0",
+  "ErrorMessage": "",
+  "ReturnValue": {
+    "Sources": [
+      {
+        "ID": "Source1_ID",
+        "PreviewID": "",
+        "Channels": [
+          0,
+          1
+        ]
+      },
+      {
+        "ID": "Source2_ID",
+        "PreviewID": "",
+        "Channels": [
+          0,
+          1
+        ]
+      },
+      {
+        "ID": "SourceN_ID",
+        "PreviewID": "",
+        "Channels": [
+          0,
+          1,
+	  2
+        ]
+      }
+    ]
+  }
+}

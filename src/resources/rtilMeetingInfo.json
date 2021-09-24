@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "rtilChannelId": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "rtilChannelId"
+  ]
+}

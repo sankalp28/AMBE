@@ -1,0 +1,28 @@
+{
+	"type": "object",
+	"properties": {
+		"sources": {
+			"type": "array",
+			"items": [
+				{
+					"type": "object",
+					"properties": {
+						"SourceID": {
+							"type": "string"
+						},
+						"rtilCode": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"SourceID",
+						"rtilCode"
+					]
+				}
+			]
+		}
+	},
+	"required": [
+		"sources"
+	]
+}

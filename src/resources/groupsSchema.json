@@ -1,0 +1,40 @@
+{
+  "type": "object",
+  "properties": {
+    "Groups": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "GroupName": {
+              "type": "string"
+            },
+	    "Gain": {
+              "type": "integer"
+            },
+	    "isMute": {
+              "type": "boolean"
+            },
+            "ChannelIds": {
+              "type": "array",
+              "items": 
+                {
+                  "type": "string"
+                }
+            }
+          },
+          "required": [
+            "GroupName",
+	    "Gain",
+	    "isMute",
+            "ChannelIds"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "Groups"
+  ]
+}

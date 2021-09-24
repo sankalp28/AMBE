@@ -1,0 +1,93 @@
+{
+  "type": "object",
+  "properties": {
+    "Master": {
+      "type": "object",
+      "properties": {
+        "PreviewID": {
+          "type": "string"
+        },
+        "ID": {
+          "type": "string"
+        },
+        "Channels": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "ID": {
+                  "type": "integer"
+                },
+                "Gain": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "ID",
+		"Gain"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "PreviewID",
+        "ID",
+        "Channels"
+      ]
+    },
+    "Sources": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "SourceName": {
+              "type": "string"
+            },
+            "PreviewID": {
+              "type": "string"
+            },
+            "ID": {
+              "type": "string"
+            },
+            "Channels": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "ID": {
+                      "type": "integer"
+                    },
+                    "Gain": {
+                      "type": "integer"
+                    },
+                    "isMute": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "ID",
+                    "Gain",
+		    		"isMute"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "SourceName",
+            "PreviewID",
+            "ID",
+            "Channels"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "Sources"
+  ]
+}

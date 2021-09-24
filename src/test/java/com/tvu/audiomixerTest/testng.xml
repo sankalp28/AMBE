@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<suite name="Test All">
+
+	<test name="Unit test">
+		<classes>
+			<class name="com.tvu.audioMixerTest.CreateTaskTest" />
+			<class name="com.tvu.audioMixerTest.DeleteTaskTest" />
+			<class name="com.tvu.audioMixerTest.GetGroupTest" />
+			<class name="com.tvu.audioMixerTest.GetSourceTest" />
+			<class name="com.tvu.audioMixerTest.SaveGroupTest" />
+			<class name="com.tvu.audioMixerTest.SaveSourceTest" />
+		</classes>
+	</test>
+</suite>

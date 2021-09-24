@@ -1,0 +1,119 @@
+package com.tvu.audiomixerTest;
+
+import static org.junit.Assert.assertEquals;
+import java.io.IOException;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
+import org.junit.Test;
+
+public class GetSourceTest 
+{
+	@Test
+	public void validVmIpForGetSourceStatusCode()
+			throws ClientProtocolException, IOException {
+
+		// Given
+		String vmip = "35.172.181.49";
+		String endpoint="https://vnqjnukqw9.execute-api.us-east-2.amazonaws.com/dev/tvu/audiomixer/v1/sources?vmip=" + vmip ;
+		HttpUriRequest request = new HttpGet(endpoint);
+
+		// When
+		HttpResponse httpResponse = HttpClientBuilder.create().build().execute( request );
+		assertEquals(
+				httpResponse.getStatusLine().getStatusCode(),
+				201);
+	}		
+	@Test
+	public void inValidVmIpForGetSourceStatusCode()
+			throws ClientProtocolException, IOException {
+
+		// Given
+		String vmip = "35.172.181.19";
+		String endpoint="https://vnqjnukqw9.execute-api.us-east-2.amazonaws.com/dev/tvu/audiomixer/v1/sources?vmip=" + vmip ;
+		HttpUriRequest request = new HttpGet(endpoint);
+
+		// When
+		HttpResponse httpResponse = HttpClientBuilder.create().build().execute( request );
+		assertEquals(
+				httpResponse.getStatusLine().getStatusCode(),
+				502);
+	}
+	@Test
+	public void inValidVmIpForGetSourceMessage()
+			throws ClientProtocolException, IOException {
+
+		// Given
+		String vmip = "35.172.181.19";
+		String endpoint="https://vnqjnukqw9.execute-api.us-east-2.amazonaws.com/dev/tvu/audiomixer/v1/sources?vmip=" + vmip ;
+		HttpUriRequest request = new HttpGet(endpoint);
+
+		// When
+		HttpResponse httpResponse = HttpClientBuilder.create().build().execute( request );
+		HttpEntity entity = httpResponse.getEntity();
+		String responseString = EntityUtils.toString(entity, "UTF-8");
+		assertEquals(responseString.split(":")[1].split("\"")[1],"Internal server error");
+	}
+	@Test
+	public void blankVmIpForGetSourceStatusCode()
+			throws ClientProtocolException, IOException {
+
+		// Given
+		String vmip = "";
+		String endpoint="https://vnqjnukqw9.execute-api.us-east-2.amazonaws.com/dev/tvu/audiomixer/v1/sources?vmip=" + vmip ;
+		HttpUriRequest request = new HttpGet(endpoint);
+
+		// When
+		HttpResponse httpResponse = HttpClientBuilder.create().build().execute( request );
+		assertEquals(
+				httpResponse.getStatusLine().getStatusCode(),
+				503);
+	}
+	@Test
+	public void blankVmIpForGetSourceMessage()
+			throws ClientProtocolException, IOException {
+
+		// Given
+		String vmip = "";
+		String endpoint="https://vnqjnukqw9.execute-api.us-east-2.amazonaws.com/dev/tvu/audiomixer/v1/sources?vmip=" + vmip ;
+		HttpUriRequest request = new HttpGet(endpoint);
+
+		// When
+		HttpResponse httpResponse = HttpClientBuilder.create().build().execute( request );
+		HttpEntity entity = httpResponse.getEntity();
+		String responseString = EntityUtils.toString(entity, "UTF-8");
+		assertEquals(responseString.split(":")[1].split("\"")[1],"Unable to get the sources");
+	}
+	@Test
+	public void withoutVmIpForGetSourceStatusCode()
+			throws ClientProtocolException, IOException {
+
+		// Given
+		String endpoint="https://vnqjnukqw9.execute-api.us-east-2.amazonaws.com/dev/tvu/audiomixer/v1/sources";
+		HttpUriRequest request = new HttpGet(endpoint);
+
+		// When
+		HttpResponse httpResponse = HttpClientBuilder.create().build().execute( request );
+		assertEquals(
+				httpResponse.getStatusLine().getStatusCode(),
+				400);
+	}
+	@Test
+	public void withoutVmIpForGetSourceMessage()
+			throws ClientProtocolException, IOException {
+
+		// Given
+		String endpoint="https://vnqjnukqw9.execute-api.us-east-2.amazonaws.com/dev/tvu/audiomixer/v1/sources";
+		HttpUriRequest request = new HttpGet(endpoint);
+
+		// When
+		HttpResponse httpResponse = HttpClientBuilder.create().build().execute( request );
+		HttpEntity entity = httpResponse.getEntity();
+		String responseString = EntityUtils.toString(entity, "UTF-8");
+		assertEquals(responseString.split(":")[1].split("\"")[1],"VM IP address is not provided.");
+	}
+}
